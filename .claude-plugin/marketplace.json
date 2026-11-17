@@ -1,0 +1,14 @@
+{
+  "name": "claude-dot-clock",
+  "owner": {
+    "name": "kongbai-is-my-name"
+  },
+  "description": "A dot-matrix clock backdrop for the Claude desktop app's Code tab.",
+  "plugins": [
+    {
+      "name": "dot-glyph",
+      "source": "./",
+      "description": "A dot-matrix clock on a pixel sky that follows the weather of the city, behind the chat in the desktop app. /dot-glyph on|off|city|city2|glass."
+    }
+  ]
+}

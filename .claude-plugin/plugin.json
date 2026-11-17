@@ -1,0 +1,10 @@
+{
+  "name": "dot-glyph",
+  "version": "0.4.0",
+  "description": "A dot-matrix clock on a pixel sky that follows the weather of the city, behind the chat in the desktop app. /dot-glyph on|off|city|city2|glass.",
+  "author": {
+    "name": "kongbai-is-my-name"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/kongbai-is-my-name/claude-dot-clock"
+}
