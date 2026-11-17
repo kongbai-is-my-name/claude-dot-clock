@@ -27,7 +27,12 @@ let scanTimer: { cancel(): void } | undefined
 // THE SCENE IS ANSWERED AS THE SAME STRING until this mod means it to change: a window asks for the drawing more often
 // than the mod redraws, and a string that differed at every ask (the time is in it) gave it a new picture each time,
 // which never got to move. Kept under what it was built from; dropped by the three-minute redraw.
-let drawn: { from: string; svg: string } | undefined
+let drawn: { from: string; svg: string; at: number } | undefined
+// HOW LONG ONE BUILT SCENE IS HANDED OUT. The scene starts its clock at the time it was built, from wherever a window
+// first shows it: one handed out minutes later (a window that redraws, a session switched back to) ran that many
+// minutes behind. So a scene is kept only long enough to answer one burst of asks the same, and a later ask gets a
+// scene built at its own time.
+const FRESH_MS = 3000
 // The weather over the big clock's city, asked for every quarter of an hour.
 const WEATHER_MS = 15 * 60_000
 let weatherTimer: { cancel(): void } | undefined
@@ -458,8 +463,8 @@ export const register: Register = on => {
     const sky = weather !== undefined && weather.label === main.label && Date.now() - weather.at < 3_600_000 ? weather.value : undefined
     const smooth = config.motion !== 'light'
     const from = JSON.stringify([main, second?.label, second?.offsetMinutes, sky, scan, smooth])
-    if (drawn?.from !== from) {
-      drawn = { from, svg: dotGlyphSvg({ now: now.getTime(), main, second, weather: sky, smooth }, scan ?? 0) }
+    if (drawn?.from !== from || Date.now() - drawn.at > FRESH_MS) {
+      drawn = { from, at: Date.now(), svg: dotGlyphSvg({ now: now.getTime(), main, second, weather: sky, smooth }, scan ?? 0) }
     }
     const scene = drawn.svg
 
